@@ -51,7 +51,7 @@ EOT
     revision              = string
     version               = optional(string)
     terms_of_service_url  = optional(string)
-    subscription_required = optional(bool, true)
+    subscription_required = optional(bool) # Default: true
     source_api_id         = optional(string)
     service_url           = optional(string)
     protocols             = optional(set(string))
