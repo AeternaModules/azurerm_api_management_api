@@ -51,7 +51,7 @@ EOT
     revision              = string
     version               = optional(string)
     terms_of_service_url  = optional(string)
-    subscription_required = optional(bool) # Default: true
+    subscription_required = optional(bool)
     source_api_id         = optional(string)
     service_url           = optional(string)
     protocols             = optional(set(string))
@@ -92,94 +92,6 @@ EOT
       query  = string
     }))
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_apis : (
-        v.display_name == null || (length(v.display_name) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_apis : (
-        length(v.revision) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_apis : (
-        v.revision_description == null || (length(v.revision_description) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_apis : (
-        v.contact == null || (v.contact.name == null || (length(v.contact.name) > 0))
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_apis : (
-        v.import == null || (length(v.import.content_value) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_apis : (
-        v.import == null || (v.import.wsdl_selector == null || (length(v.import.wsdl_selector.service_name) > 0))
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_apis : (
-        v.import == null || (v.import.wsdl_selector == null || (length(v.import.wsdl_selector.endpoint_name) > 0))
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_apis : (
-        v.license == null || (v.license.name == null || (length(v.license.name) > 0))
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_apis : (
-        v.subscription_key_parameter_names == null || (length(v.subscription_key_parameter_names.header) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_apis : (
-        v.subscription_key_parameter_names == null || (length(v.subscription_key_parameter_names.query) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_apis : (
-        v.version_description == null || (length(v.version_description) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_api_management_api's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
@@ -202,20 +114,50 @@ EOT
   #   source:    [from resourcegroups.ValidateName: invalid when len(value) == 0]
   # path: resource_group_name
   #   source:    [from resourcegroups.ValidateName] !matched
+  # path: display_name
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: path
   #   source:    validate.ApiManagementApiPath: no recognizable `if ... { errors = append(...) }` pattern - read it by hand
   # path: protocols[*]
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: revision
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: revision_description
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: api_type
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
   # path: contact.email
   #   source:    validation.IsEmailAddress(...) - no translation rule yet, add one
+  # path: contact.name
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: contact.url
   #   source:    validation.IsURLWithHTTPorHTTPS(...) - no translation rule yet, add one
+  # path: import.content_value
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: import.content_format
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: import.wsdl_selector.service_name
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: import.wsdl_selector.endpoint_name
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: license.name
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: license.url
   #   source:    validation.IsURLWithHTTPorHTTPS(...) - no translation rule yet, add one
+  # path: subscription_key_parameter_names.header
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: subscription_key_parameter_names.query
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: terms_of_service_url
   #   source:    validation.IsURLWithHTTPorHTTPS(...) - no translation rule yet, add one
   # path: source_api_id
@@ -228,5 +170,8 @@ EOT
   #   source:    [from validate.ApiManagementChildName] !matched
   # path: openid_authentication.bearer_token_sending_methods[*]
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: version_description
+  #   condition: length(value) > 0
+  #   message:   must not be empty
 }
 
