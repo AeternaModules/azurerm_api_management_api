@@ -12,7 +12,7 @@ output "api_management_apis_api_type" {
 }
 output "api_management_apis_contact" {
   description = "Map of contact values across all api_management_apis, keyed the same as var.api_management_apis"
-  value       = { for k, v in azurerm_api_management_api.api_management_apis : k => v.contact if v.contact != null && length(v.contact) > 0 }
+  value       = { for k, v in azurerm_api_management_api.api_management_apis : k => one(v.contact) if v.contact != null && length(v.contact) > 0 }
 }
 output "api_management_apis_description" {
   description = "Map of description values across all api_management_apis, keyed the same as var.api_management_apis"
@@ -24,7 +24,7 @@ output "api_management_apis_display_name" {
 }
 output "api_management_apis_import" {
   description = "Map of import values across all api_management_apis, keyed the same as var.api_management_apis"
-  value       = { for k, v in azurerm_api_management_api.api_management_apis : k => v.import if v.import != null && length(v.import) > 0 }
+  value       = { for k, v in azurerm_api_management_api.api_management_apis : k => one(v.import) if v.import != null && length(v.import) > 0 }
 }
 output "api_management_apis_is_current" {
   description = "Map of is_current values across all api_management_apis, keyed the same as var.api_management_apis"
@@ -36,7 +36,7 @@ output "api_management_apis_is_online" {
 }
 output "api_management_apis_license" {
   description = "Map of license values across all api_management_apis, keyed the same as var.api_management_apis"
-  value       = { for k, v in azurerm_api_management_api.api_management_apis : k => v.license if v.license != null && length(v.license) > 0 }
+  value       = { for k, v in azurerm_api_management_api.api_management_apis : k => one(v.license) if v.license != null && length(v.license) > 0 }
 }
 output "api_management_apis_name" {
   description = "Map of name values across all api_management_apis, keyed the same as var.api_management_apis"
@@ -44,11 +44,11 @@ output "api_management_apis_name" {
 }
 output "api_management_apis_oauth2_authorization" {
   description = "Map of oauth2_authorization values across all api_management_apis, keyed the same as var.api_management_apis"
-  value       = { for k, v in azurerm_api_management_api.api_management_apis : k => v.oauth2_authorization if v.oauth2_authorization != null && length(v.oauth2_authorization) > 0 }
+  value       = { for k, v in azurerm_api_management_api.api_management_apis : k => one(v.oauth2_authorization) if v.oauth2_authorization != null && length(v.oauth2_authorization) > 0 }
 }
 output "api_management_apis_openid_authentication" {
   description = "Map of openid_authentication values across all api_management_apis, keyed the same as var.api_management_apis"
-  value       = { for k, v in azurerm_api_management_api.api_management_apis : k => v.openid_authentication if v.openid_authentication != null && length(v.openid_authentication) > 0 }
+  value       = { for k, v in azurerm_api_management_api.api_management_apis : k => one(v.openid_authentication) if v.openid_authentication != null && length(v.openid_authentication) > 0 }
 }
 output "api_management_apis_path" {
   description = "Map of path values across all api_management_apis, keyed the same as var.api_management_apis"
@@ -80,7 +80,7 @@ output "api_management_apis_source_api_id" {
 }
 output "api_management_apis_subscription_key_parameter_names" {
   description = "Map of subscription_key_parameter_names values across all api_management_apis, keyed the same as var.api_management_apis"
-  value       = { for k, v in azurerm_api_management_api.api_management_apis : k => v.subscription_key_parameter_names if v.subscription_key_parameter_names != null && length(v.subscription_key_parameter_names) > 0 }
+  value       = { for k, v in azurerm_api_management_api.api_management_apis : k => one(v.subscription_key_parameter_names) if v.subscription_key_parameter_names != null && length(v.subscription_key_parameter_names) > 0 }
 }
 output "api_management_apis_subscription_required" {
   description = "Map of subscription_required values across all api_management_apis, keyed the same as var.api_management_apis"
